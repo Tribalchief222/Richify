@@ -8,6 +8,10 @@ const RenderField = ({ field }: { field: FieldsType }) => {
   const fieldMap: Record<FieldsType['type'], unknown> = {
     text: TextField,
     custom: CustomField,
+    number: NumberField,
+    select: SelectField,
+    radio: RadioField,
+    typography: TypographyField
   };
 
   const Component = fieldMap[type];

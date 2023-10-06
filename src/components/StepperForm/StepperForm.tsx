@@ -31,18 +31,15 @@ const getSchema = (schema: StepperSchema, id: string) => {
  */
 export const StepperForm = ({
   schema,
-  onNext,
   onSubmit,
   form,
 }: {
   schema: StepperSchema;
-  onNext?: (arg: { stepId: string; values: Record<string, unknown> }) => Promise<boolean>;
   onSubmit: (arg: { values: Record<string, unknown> }) => Promise<void>;
   form: UseFormReturn;
 }) => {
   const [activeStepId, setActiveStepId] = useState(schema[0].id);
   const activeSchema = useMemo(() => getSchema(schema, activeStepId), [activeStepId, schema]);
-
   /**
    * Validate fields in the current step
    */
@@ -50,9 +47,12 @@ export const StepperForm = ({
     const currentStepFields = getCurrentStepFields(schema, activeStepId);
     const isValid = await form.trigger(currentStepFields);
     if (isValid) {
-      const shouldRenderNext = onNext
-        ? await onNext({ stepId: activeStepId, values: get(form.getValues(), currentStepFields) })
+      // @ts-expect-error we are dumb
+      const shouldRenderNext = activeSchema.onNext
+      // @ts-expect-error we are dumb
+        ? await activeSchema.onNext({ stepId: activeStepId, values: get(form.getValues(), currentStepFields) })
         : true;
+        console.log("onNext called, shouldRenderNext:", shouldRenderNext);
       if (shouldRenderNext && !activeSchema.isLastStep) {
         const nextStepId = activeSchema.nextStepId(form.getValues());
         setActiveStepId(nextStepId);

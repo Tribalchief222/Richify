@@ -13,7 +13,8 @@ export type StepperSchema = Array<
     // isLastStep?: boolean;
   } & (
     | {
-        nextStepId: (values: FieldValues) => string;
+      onNext: (arg: { stepId: string; values: Record<string, unknown> }) => Promise<boolean>;
+      nextStepId: (values: FieldValues) => string;
         isLastStep?: false;
       }
     | {
