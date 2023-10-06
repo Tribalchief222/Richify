@@ -1,6 +1,10 @@
 import { CustomField } from './Fields/CustomField';
 import TextField from './Fields/TextField/TextField';
 import { FieldsType } from './types';
+import SelectField from './Fields/SelectField/SelectField';
+import RadioField from './Fields/RadioField/RadioField';
+import TypographyField from './Fields/Typographyfield/TypographyField';
+import NumberField from './Fields/NumberField/NumberField';
 
 const RenderField = ({ field }: { field: FieldsType }) => {
   const { type, key } = field;
@@ -11,7 +15,7 @@ const RenderField = ({ field }: { field: FieldsType }) => {
     number: NumberField,
     select: SelectField,
     radio: RadioField,
-    typography: TypographyField
+    typography: TypographyField,
   };
 
   const Component = fieldMap[type];
