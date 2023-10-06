@@ -8,7 +8,7 @@ import { RadioFieldSchema } from './types';
 function RadioField({ field }: { field: RadioFieldSchema }) {
   const { formState, control } = useFormContext();
   const { errors } = formState;
-  const { label, key, rules } = field;
+  const { label, key, rules, options } = field;
 
   return (
     <div className="text-field">
@@ -28,9 +28,11 @@ function RadioField({ field }: { field: RadioFieldSchema }) {
             name={name}
             // inputRef={ref}
           >
-            <FormControlLabel value="female" control={<Radio />} label="Female" />
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
-            <FormControlLabel value="other" control={<Radio />} label="Other" />
+            {options.map(({value}) =>{
+                return (
+                  <FormControlLabel value={value} control={<Radio />} label={value} />
+                )
+             })}
           </RadioGroup>
         )}
       />
