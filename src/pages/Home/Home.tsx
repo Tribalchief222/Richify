@@ -1,13 +1,37 @@
 import { StepperForm } from '@/components/StepperForm';
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 const Home = () => {
   const methods = useForm({});
   return (
-    <Container sx={{ py: 2, position: 'relative' }}>
+    <Container
+    sx={{
+      py: 2,
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      minHeight: '100vh',
+    }}
+  >
+    <Box
+      sx={{
+        width: '800px',
+        height: '550px',
+        borderRadius: 5,
+        borderColor: 'white',
+        borderWidth: 2,
+        borderStyle: 'solid',
+        boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.5)',
+      }}
+    >
       <StepperForm
-        
+        onNext={async ({ stepId, values }) => {
+          alert(JSON.stringify({ values, stepId }, null, 2));
+          return true;
+        }}
         schema={[
           {
             id: '1',
@@ -393,8 +417,10 @@ const Home = () => {
         onSubmit={async (values) => {
           console.log(values);
         }}
+
         form={methods}
       />
+      </Box>
     </Container>
   );
 };

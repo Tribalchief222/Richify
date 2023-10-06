@@ -8,7 +8,7 @@ function TypographyField({field}: { field: TypographyFieldSchema}){
 
     return (
         <div className="text-field">
-          <Typography variant="h6">{label}</Typography>
+          <Typography sx={{fontSize: '25px',padding: 5, marginTop: 10,}}>{label}</Typography>
           
         </div>
       );

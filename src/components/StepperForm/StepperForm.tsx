@@ -1,9 +1,10 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import { get } from 'lodash';
 import { useMemo, useState } from 'react';
 import { FormProvider, UseFormReturn } from 'react-hook-form';
 import RenderField from '../RenderField/RenderField';
 import { StepperSchema } from './types';
+
 
 const getCurrentStepFields = (schema: StepperSchema, activeStep: string) => {
   const currentStepIndex = schema.findIndex((step) => step.id === activeStep);
@@ -70,20 +71,68 @@ export const StepperForm = ({
 
   return (
     <FormProvider {...form}>
-      <Box>
-        {activeSchema.schema.map((field) => (
-          <RenderField field={field} key={field.key} />
-        ))}
-        {activeSchema.isLastStep ? (
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Submit
-          </Button>
-        ) : (
-          <Button variant="contained" color="primary" onClick={handleNext}>
-            Next
-          </Button>
-        )}
-      </Box>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          {activeSchema.schema.map((field) => (
+            <RenderField field={field} key={field.key} />
+          ))}
+        </Grid>
+        <Grid item xs={12}>
+          <Box sx={{position: 'relative'}}>
+          <Box display="flex" justifyContent="flex-end" sx={{position: 'fixed', right: '26%', bottom: '20%' , width: '40%'}}>
+            {activeSchema.isLastStep ? (
+              <Button sx={{
+                  paddingX: 2,
+                  paddingY: 2,
+                  borderWidth: 1,
+                  borderStyle: "solid",
+                  borderColor: "#dd5914",
+                  backgroundColor: "#dd5914",
+                  color: "white",
+                  borderRadius: "100px",
+                  width: "25%",
+                  transition:
+                    "border-color 0.6s ease-in-out, background-color 0.6s ease-in-out, background 0.6s ease-in-out",
+
+                  "&:hover": {
+                    borderColor: "orange",
+                    backgroundColor: "rgb(251,211,63)",
+                    background:
+                      "radial-gradient(circle, rgba(251,211,63,1) 16%, rgba(252,128,70,0.891281512605042) 91%)",
+                  },
+                }} onClick={handleSubmit}>
+                Submit
+              </Button>
+            ) : (
+              <Button 
+              sx={{
+                paddingX: 2,
+                paddingY: 2,
+                borderWidth: 1,
+                borderStyle: "solid",
+                borderColor: "#dd5914",
+                backgroundColor: "#dd5914",
+                color: "white",
+                borderRadius: "100px",
+                width: "25%",
+                transition:
+                  "border-color 0.6s ease-in-out, background-color 0.6s ease-in-out, background 0.6s ease-in-out",
+
+                "&:hover": {
+                  borderColor: "orange",
+                  backgroundColor: "rgb(251,211,63)",
+                  background:
+                    "radial-gradient(circle, rgba(251,211,63,1) 16%, rgba(252,128,70,0.891281512605042) 91%)",
+                },
+              }}
+               onClick={handleNext}>
+                Next
+              </Button>
+            )}
+          </Box>
+          </Box>
+        </Grid>
+      </Grid>
     </FormProvider>
   );
 };
