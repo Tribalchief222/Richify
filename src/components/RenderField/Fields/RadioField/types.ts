@@ -5,4 +5,5 @@ export type RadioFieldSchema = {
     label: string;
     rules?: UseControllerProps['rules'];
     key: string;
+    options: Option[];
 };
