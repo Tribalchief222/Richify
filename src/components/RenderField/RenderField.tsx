@@ -1,14 +1,9 @@
+import { TextField } from '@mui/material';
 import { CustomField } from './Fields/CustomField';
-import TextField from './Fields/TextField/TextField';
 import NumberField from './Fields/NumberField/NumberField';
 import SelectField from './Fields/SelectField/SelectField';
 import RadioField from './Fields/RadioField/RadioField';
 import TypographyField from './Fields/Typographyfield/TypographyField';
-import { FieldsType } from './types';
-import SelectField from './Fields/SelectField/SelectField';
-import RadioField from './Fields/RadioField/RadioField';
-import TypographyField from './Fields/Typographyfield/TypographyField';
-import NumberField from './Fields/NumberField/NumberField';
 
 const RenderField = ({ field }: { field: FieldsType }) => {
   const { type, key } = field;

@@ -13,7 +13,7 @@ function RadioField({ field }: { field: RadioFieldSchema }) {
   return (
     <div className="text-field">
       <Box sx={{ marginX: 5, marginTop: 15 }}>
-          <Typography sx={{ fontSize: '25px',paddingX: 5, marginBottom: 1, backgroundColor: 'blue' }}>{label}</Typography>
+          <Typography sx={{ fontSize: '25px',paddingX: 5, marginBottom: 1, backgroundColor: '#24facc' }}>{label}</Typography>
         <Controller
           control={control}
           name={key}
