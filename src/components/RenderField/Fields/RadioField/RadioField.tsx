@@ -8,12 +8,17 @@ import { RadioFieldSchema } from './types';
 function RadioField({ field }: { field: RadioFieldSchema }) {
   const { formState, control } = useFormContext();
   const { errors } = formState;
-  const { label, key, rules, options } = field;
+  const { label, key, extra, rules, options } = field;
 
   return (
     <div className="text-field">
-      <Box sx={{ marginX: 5, marginTop: 15 }}>
-          <Typography sx={{ fontSize: '25px',paddingX: 5, marginBottom: 1, backgroundColor: '#24facc' }}>{label}</Typography>
+      <Box sx={{ marginX: 5, marginTop: 8 }}>
+          <Typography sx={{ fontSize: '25px',paddingX: 5, paddingY: 2, marginBottom: 1, backgroundColor: '#dcd395', borderRadius: 2 }}>{label}</Typography>
+          {extra ? (
+            <Box>
+              <Typography sx={{paddingX: 5, marginY: 2, fontWeight: 600}}>{extra}</Typography>
+            </Box>
+          ) : null}
         <Controller
           control={control}
           name={key}

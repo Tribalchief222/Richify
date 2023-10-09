@@ -9,7 +9,7 @@ function TextField({ field }: { field: TextFieldSchema }) {
 
   return (
     <div className="text-field">
-      <Box sx={{ marginX: 10, marginTop: 15 }}>
+      <Box sx={{ marginX: 10, marginTop: 0 }}>
         {label.includes(',') ? (
           <>
             <Typography sx={{ fontSize: '25px', marginBottom: 1 }}>{label.split(',')[0]}</Typography>

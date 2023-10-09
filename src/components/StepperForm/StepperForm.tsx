@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { FormProvider, UseFormReturn } from 'react-hook-form';
 import RenderField from '../RenderField/RenderField';
 import { StepperSchema } from './types';
-
+import Confetti from 'react-confetti';
 
 const getCurrentStepFields = (schema: StepperSchema, activeStep: string) => {
   const currentStepIndex = schema.findIndex((step) => step.id === activeStep);
@@ -50,10 +50,10 @@ export const StepperForm = ({
     if (isValid) {
       // @ts-expect-error we are dumb
       const shouldRenderNext = activeSchema.onNext
-      // @ts-expect-error we are dumb
-        ? await activeSchema.onNext({ stepId: activeStepId, values: get(form.getValues(), currentStepFields) })
+        ? // @ts-expect-error we are dumb
+          await activeSchema.onNext({ stepId: activeStepId, values: get(form.getValues(), currentStepFields) })
         : true;
-        console.log("onNext called, shouldRenderNext:", shouldRenderNext);
+      console.log('onNext called, shouldRenderNext:', shouldRenderNext);
       if (shouldRenderNext && !activeSchema.isLastStep) {
         const nextStepId = activeSchema.nextStepId(form.getValues());
         setActiveStepId(nextStepId);
@@ -69,6 +69,14 @@ export const StepperForm = ({
     }
   };
 
+  const handlePrevious = () => {
+    const currentStepIndex = schema.findIndex((step) => step.id === activeStepId);
+    if (currentStepIndex > 0) {
+      const previousStepId = schema[currentStepIndex - 1].id;
+      setActiveStepId(previousStepId);
+    }
+  };
+
   return (
     <FormProvider {...form}>
       <Grid container spacing={2}>
@@ -78,58 +86,62 @@ export const StepperForm = ({
           ))}
         </Grid>
         <Grid item xs={12}>
-          <Box sx={{position: 'relative'}}>
-          <Box display="flex" justifyContent="flex-end" sx={{position: 'fixed', right: '26%', bottom: '20%' , width: '40%'}}>
-            {activeSchema.isLastStep ? (
-              <Button sx={{
-                  paddingX: 2,
-                  paddingY: 2,
+          <Box sx={{ position: 'relative' }}>
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              sx={{ position: 'fixed', right: '26%', bottom: '20%', width: '40%' }}
+            >
+              <Button
+                sx={{
+                  background: 'linear-gradient(to bottom, #fdc360, #f8dcad)',
+                  backgroundSize: '100% 200%',
+                  backgroundPosition: 'bottom',
+                  marginX: 2,
+                  color: '#333', // Text color
+                  fontWeight: 'semi-bold',
+                  borderRadius: '5px',
+                  padding: '10px 40px',
                   borderWidth: 1,
-                  borderStyle: "solid",
-                  borderColor: "#dd5914",
-                  backgroundColor: "#dd5914",
-                  color: "white",
-                  borderRadius: "100px",
-                  width: "25%",
-                  transition:
-                    "border-color 0.6s ease-in-out, background-color 0.6s ease-in-out, background 0.6s ease-in-out",
+                  borderColor: '#fabc50',
+                  borderStyle: 'solid',
+                  transition: 'background-color 0.5s, color 0.5s',
+                  visibility: activeStepId === '1' ? 'hidden' : 'visible', // Hide on the first step
 
-                  "&:hover": {
-                    borderColor: "orange",
-                    backgroundColor: "rgb(251,211,63)",
-                    background:
-                      "radial-gradient(circle, rgba(251,211,63,1) 16%, rgba(252,128,70,0.891281512605042) 91%)",
+                  '&:hover': {
+                    backgroundPosition: 'top',
+                    color: '#fff', // Text color on hover
                   },
-                }} onClick={handleSubmit}>
-                Submit
+                }}
+                onClick={handlePrevious}
+              >
+                Previous
               </Button>
-            ) : (
-              <Button 
-              sx={{
-                paddingX: 2,
-                paddingY: 2,
-                borderWidth: 1,
-                borderStyle: "solid",
-                borderColor: "#dd5914",
-                backgroundColor: "#dd5914",
-                color: "white",
-                borderRadius: "100px",
-                width: "25%",
-                transition:
-                  "border-color 0.6s ease-in-out, background-color 0.6s ease-in-out, background 0.6s ease-in-out",
 
-                "&:hover": {
-                  borderColor: "orange",
-                  backgroundColor: "rgb(251,211,63)",
-                  background:
-                    "radial-gradient(circle, rgba(251,211,63,1) 16%, rgba(252,128,70,0.891281512605042) 91%)",
-                },
-              }}
-               onClick={handleNext}>
-                Next
+              <Button
+                sx={{
+                  background: 'linear-gradient(to bottom, #fdc360, #f8dcad)',
+                  backgroundSize: '100% 200%',
+                  backgroundPosition: 'bottom',
+                  color: '#333', // Text color
+                  fontWeight: 'semi-bold',
+                  borderRadius: '5px',
+                  padding: '10px 40px',
+                  borderWidth: 1,
+                  borderColor: '#fabc50',
+                  borderStyle: 'solid',
+                  transition: 'background-color 0.5s, color 0.5s',
+
+                  '&:hover': {
+                    backgroundPosition: 'top',
+                    color: '#fff', // Text color on hover
+                  },
+                }}
+                onClick={activeSchema.isLastStep ? handleSubmit : handleNext}
+              >
+                {activeSchema.isLastStep ? 'Submit' : 'Next'}
               </Button>
-            )}
-          </Box>
+            </Box>
           </Box>
         </Grid>
       </Grid>
